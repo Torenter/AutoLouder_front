@@ -11,7 +11,7 @@
         <form action="{% url 'login' %}" method="post">
             {{ form.as_p }}
             {% csrf_token %}
-            <input type="hidden" name="text" value="{{ next }}"/> <! -- куда перенаправлять пользователя после того,как он всё правильно ввел.Параметр next должен быть указать URL -->
+            <input type="hidden" name="text" value="{{ next }}"/> <!-- куда перенаправлять пользователя после того,как он всё правильно ввел.Параметр next должен быть указать URL -->
             <p><input type="submit" value="Log-in"></p>
         </form>
     </div>
