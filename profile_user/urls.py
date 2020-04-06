@@ -1,6 +1,8 @@
 from django.urls import path
-from . import views
+from .views import UploadFileCreateView, dashboard
 
 urlpatterns = [
-    path('', views.dashboard, name='dashboard'), 
+    path('', dashboard, name='dashboard'), 
+    path('simple_upload/',UploadFileCreateView.as_view(),name = 'add'),
+
 ]
