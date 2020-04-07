@@ -1,7 +1,8 @@
 from django import forms
 from .models import CustomFile
-
-class UploadFileForm(forms.ModelForm):
+from django.contrib.auth.models import User
+#В принципе форма не нужна, т.к. использутся класс для представления
+'''class UploadFileForm(forms.ModelForm):
     class Meta:
         model = CustomFile
-        fields = ('file_user',)
+        fields = ('file_user',)'''
