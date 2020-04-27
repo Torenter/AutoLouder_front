@@ -1,6 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
 {% block content %}
-<h1>Dashboard</h1>  <p>Welcome to your dashboard.</p> 
-<a href="{% url 'add' %}">Загрузить файл</a>
+    <p>Welcome to your dashboard.
+        Куча какого то текста
+        а может и диаграммы али еще чего
+        И тогда ссылку на страницу загрузки можно засунуть в navbar в выпадающий список
+    </p> 
+    <a href="{% url 'add' %}">Загрузить файл</a>
 {% endblock %} 
