@@ -13,11 +13,12 @@ import pika
 class UploadFileCreateView(LoginRequiredMixin,CreateView):
     login_url = '/login/'
     model = CustomFile
-    fields = ['file_user'] #Поле выводимое на экран из модели
+    fields = ['file_user_base','file_user_vars','file_user_vals','file_user_weight','file_user_param'] #Поле выводимое на экран из модели
     template_name = 'simple_upload.html' #путь к шаблону для вывода страницы
     success_url = reverse_lazy ('dashboard') #куда перенаправлять в случае удачной загрузки файла
     def form_valid(self, form ):
         form.instance.user = self.request.user # автозаполнение поля пользователя
+        '''Директория сохранения файла меняется динамически, необходимо корректно определять,куда сохранись файлы, в этом случае можно передавать не имя файла, а весь путь, где они лежат
         connection = pika.BlockingConnection(
         pika.ConnectionParameters(host='localhost')
         )
@@ -25,10 +26,8 @@ class UploadFileCreateView(LoginRequiredMixin,CreateView):
         channel.queue_declare(queue= 'hello')
         file_name=self.request.FILES['file_user'].name # в request.FILES хранится всё о файле. Через ключ мы обращаемся к полю с файлом, где содержится вся информация. И берет атрибут имени,чтобы знать как файл называется
         channel.basic_publish(exchange='', routing_key='hello', body='{}\\{}'.format(settings.MEDIA_ROOT,file_name )) #отправка сообщения с дирректорией и названием файла
-
-        channel.close()
-        return super().form_valid(form)
-    
+        channel.close()'''
+        return super().form_valid(form)    
 
 @login_required
 def dashboard(request):
