@@ -126,3 +126,13 @@ LOGIN_URL = 'login'
 LOGOUT_URL = 'logout' 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # выводит письмо в консоль, для теста
+
+#Настроки для боевого сервера
+#EMAIL_HOST = 'smtp.gmail.com'  #– хост SMTP-сервера; по умолчанию localhost
+#EMAIL_HOST_USER = 'your_account@gmail.com' #– логин пользователя для SMTP-сервера;	
+#EMAIL_HOST_PASSWORD = 'your_password' #– пароль пользователя для SMTP-сервера
+#EMAIL_PORT = 587 EMAIL_USE_TLS = True   #порт SMTP-сервера; по умолчанию 25;	
+#EMAIL_USE_TLS = # – использовать ли защищенное TLS-подключение
+#EMAIL_USE_SSL = #– использовать ли скрытое TLS-подключение
