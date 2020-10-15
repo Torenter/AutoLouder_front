@@ -1,0 +1,5 @@
+set "class" "%1%"
+set "varnum" "%2%"
+set "dest" "C:\SPSSConverter\test_new_translator\Base"
+set "direct" "C:\SPSSConverter\test_new_translator\DF"
+convert -vars "%dest%\%class%\%class%_vars.csv" -vals "%dest%\%class%\%class%_vals.csv" -wt "%dest%\%class%\%class%_wt.csv" -sav "%dest%\%class%\%class%.sav" -varnum "C:\SPSSConverter\test_new_translator\varnum\%varnum%.varnum" -out_name "%direct%\%class%\%bd%"

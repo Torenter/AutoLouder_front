@@ -1,0 +1,7 @@
+set "class" "%1%"
+set "bd" "%2%"
+set "varnum" "%3%"
+set "dest" "C:\SPSSConverter\test_new_translator\Base"
+set "direct" "C:\SPSSConverter\test_new_translator\DF"
+ruby_convert -lang "ru-RU" -vars "%dest%\%class%\%bd%_vars.csv" -vals "%dest%\%class%\%bd%_vals.csv" -out_name "%dest%\%class%\%bd%"
+convert -vars "%dest%\%class%\%bd%.vars.csv" -vals "%dest%\%class%\%bd%.vals.csv" -wt "%dest%\%class%\%bd%_wt.csv" -sav "%dest%\%class%\%bd%.sav" -varnum "C:\SPSSConverter\test_new_translator\varnum\%varnum%.varnum" -out_name "%direct%\%class%\%bd%"

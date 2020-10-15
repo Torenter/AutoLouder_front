@@ -18,14 +18,14 @@ class UploadFileCreateView(LoginRequiredMixin,CreateView):
     success_url = reverse_lazy ('dashboard') #куда перенаправлять в случае удачной загрузки файла
     def form_valid(self, form ):
         form.instance.user = self.request.user # автозаполнение поля пользователя
-        '''file_name = self.request.FILES['file_user_base'].name # в request.FILES хранится всё о файле. Через ключ мы обращаемся к полю с файлом, где содержится вся информация. И берет атрибут имени,чтобы знать как файл называется
+        file_name = self.request.FILES['file_user_base'].name # в request.FILES хранится всё о файле. Через ключ мы обращаемся к полю с файлом, где содержится вся информация. И берет атрибут имени,чтобы знать как файл называется
         connection = pika.BlockingConnection(
         pika.ConnectionParameters(host='localhost')
         )
         channel = connection.channel()
         channel.queue_declare(queue= 'hello')
         channel.basic_publish(exchange='', routing_key='hello', body='{}\\{}'.format(settings.MEDIA_ROOT,file_name[:-4] )) #отправка сообщения с дирректорией и названием файла
-        channel.close()'''
+        channel.close()
         return super().form_valid(form)    
 
 @login_required
