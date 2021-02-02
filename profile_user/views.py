@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import CustomFile
 from django.conf import settings
 #from django.contrib.auth.models import User
-import pika
+import socket
     
 class UploadFileCreateView(LoginRequiredMixin,CreateView):
     login_url = '/login/'
@@ -19,13 +19,11 @@ class UploadFileCreateView(LoginRequiredMixin,CreateView):
     def form_valid(self, form ):
         form.instance.user = self.request.user # автозаполнение поля пользователя
         file_name = self.request.FILES['file_user_base'].name # в request.FILES хранится всё о файле. Через ключ мы обращаемся к полю с файлом, где содержится вся информация. И берет атрибут имени,чтобы знать как файл называется
-        connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host='localhost')
-        )
-        channel = connection.channel()
-        channel.queue_declare(queue= 'hello')
-        channel.basic_publish(exchange='', routing_key='hello', body='{}\\{}'.format(settings.MEDIA_ROOT,file_name[:-4] )) #отправка сообщения с дирректорией и названием файла
-        channel.close()
+        body=f'{settings.MEDIA_ROOT}\\{file_name[:-4]}' #отправка сообщения с дирректорией и названием файла
+        sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+        sock.connect(('127.0.0.1',9090))
+        sock.send(body.encode('utf-8'))
+        sock.close()
         return super().form_valid(form)    
 
 @login_required

@@ -14,7 +14,7 @@ def get_command(folder):
         p = df.loc[df['Param']==_].index[0]
         list = df.loc[p].tolist()
         params[list[0]] = list[1]
-    if params['Ruby'] == 'True':
+    if params['Task'] == 'Ruby':
         file_t = open('{}\\{}'.format(os.path.dirname(os.path.abspath(__file__)),'task_ruby.txt','r'))
     else:
         file_t = open('{}\\{}'.format(os.path.dirname(os.path.abspath(__file__)),'task_convert.txt','r'))
@@ -27,3 +27,6 @@ def get_command(folder):
     file_t.close()
     task_f_base.close()
     return params
+
+if __name__ == "__main__":
+    print('Должен быть импортирован')
