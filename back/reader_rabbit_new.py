@@ -38,6 +38,7 @@ class Task():
         cmd = "{}".format(translator)
         task = '{}\\{}'.format(self.body,'task.txt')
         folder_name = self.body.split('\\')[-1]
+        print(folder_name)
         varnum = params['Class']
         #command = subprocess.run([cmd, task, folder_name, folder_name,varnum], stdout=subprocess.PIPE)
         self.to_js(params,folder_name)
@@ -46,9 +47,10 @@ class Task():
     def get_command(self,folder):
         ''' Функция считывает параметры из файла, выбирает нужный таск и создает такой же в папке с файлами исследования.'''
         param_file = os.listdir(path="{}".format(folder))#найти все файлы в папке
-        params = [f for f in param_file if '_param' in f]#найти файл с параметрами
+        param = [f for f in param_file if '_param' in f]#найти файл с параметрами
+        param = param[0]
         try:
-            df = pd.read_csv('{}\\{}'.format(folder,params),encoding ='utf-8',sep=';')
+            df = pd.read_csv('{}\\{}'.format(folder,param),encoding ='utf-8',sep=';')
         except:
             return None
         params={}
