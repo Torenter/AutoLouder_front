@@ -6,4 +6,7 @@
         И тогда ссылку на страницу загрузки можно засунуть в navbar в выпадающий список
     </p> 
     <a href="{% url 'add' %}">Загрузить файл</a>
+    {% for p in post %}
+    <p>{{p.file_user_base}}-{{p.status}}</p>
+    {% endfor %}
 {% endblock %} 

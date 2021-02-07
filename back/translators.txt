@@ -1,2 +1,2 @@
-C:\Program Files\DataFriend Translator_new\df_Translator.exe
-C:\Program Files\DataFriend Translator_new\df_Translator_1.exe
+D:\AutoLouder_front\DataFriend Translator\df_Translator.exe
+D:\AutoLouder_front\DataFriend Translator_2\df_Translator_2.exe
