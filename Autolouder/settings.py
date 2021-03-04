@@ -20,12 +20,15 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'j_kw8fc=^qg0%uvo%w5@h(sw^is2ca4m*ut!#yimaj^plaf3)7'
+#SECRET_KEY = 
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+# ALLOWED_HOSTS = []
+CSRF_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = False
 
 
 # Application definition
@@ -75,17 +78,7 @@ WSGI_APPLICATION = 'Autolouder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 # если вдруг нужно будет переехать на постгрес
-"""DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'egoradmin',
-        'USER': 'egoradmin',
-        'PASSWORD': '92eb3makrw53aK',
-        #'autocommit': True,
-        'HOST' : 'localhost',
-        'PORT' : '5432',
-    }
-}"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

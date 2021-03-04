@@ -20,6 +20,6 @@ urlpatterns = [
     path('password_change/',include('users.urls')),
     path('admin/', admin.site.urls),
     path('login/',include('users.urls')),
-    path('',include('profile_user.urls')),
+    path('autoloader/',include('profile_user.urls')),
    
 ]

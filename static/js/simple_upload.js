@@ -25,7 +25,8 @@ $(document).ready(function () {
       contentType : false,
       success : function(response) {
         alert('File uploaded!');
-        window.location.replace("http://127.0.0.1:8000/");
+        window.location = window.location.protocol + "//" +
+                                         window.location.host + "/autoloader/";
       }
     });
   });

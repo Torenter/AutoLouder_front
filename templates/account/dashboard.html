@@ -1,12 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-    <p>Welcome to your dashboard.
-        Куча какого то текста
-        а может и диаграммы али еще чего
-        И тогда ссылку на страницу загрузки можно засунуть в navbar в выпадающий список
-    </p> 
+    <p>Добро пожаловать в Автозагрузчик DataFriend!</p> 
     <a href="{% url 'add' %}">Загрузить файл</a>
     {% for p in post %}
-    <p>{{p.file_user_base}}-{{p.status}}</p>
+    <p><a href="{% url 'update_form' p.pk %}">{{p.name}}</a>-{{p.status}}-<a href="{% url 'showLog' %}?name={{p.file_user_base}}">LogFile</a></p>
     {% endfor %}
 {% endblock %} 

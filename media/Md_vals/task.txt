@@ -1,0 +1,6 @@
+set "class" "%1%"
+set "varnum" "%2%"
+set "dest" "D:\AutoLouder_front\media"
+set "direct" "D:\DataFriend\resources"
+ruby_convert -lang "ru-RU" -vars "%dest%\%class%\%class%_vars.csv" -vals "%dest%\%class%\%class%_vals.csv" -out_name "%dest%\%class%\%class%"
+convert -vars "%dest%\%class%\%class%.vars.csv" -vals "%dest%\%class%\%class%.vals.csv" -wt "%dest%\%class%\%class%_wt.csv" -sav "%dest%\%class%\%class%.sav" -varnum "D:\AutoLouder_front\varmum\%varnum%.varnum" -out_name "%direct%\%class%\%class%"
