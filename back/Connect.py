@@ -18,8 +18,14 @@ class Connect:
         for_result['Name'] = self.params['project_name']#
         # for_result['ExportDate'] = self.params['']#
         # for_result['Country'] = self.params['']
-        for_result['Start'] = self.params['start']
-        for_result['End'] = self.params['end']
+        try:
+            for_result['Start'] = self.params['start']
+        except:
+            for_result['Start'] = ""
+        try:
+            for_result['End'] = self.params['end']
+        except:
+            for_result['End'] = ""
         for_result['Client'] = self.params['client']#
         for_result['Folder'] = self.params['folder']#
         to_connect = {}
@@ -31,7 +37,7 @@ class Connect:
             self.__create_json()
             return None, None
         except:
-            return None, 'Ошибка в файле Param'
+            return None, 'Ошибка подключения.Неверный файл Param'
 
 if __name__== '__main__':
     pass

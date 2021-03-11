@@ -1,8 +1,23 @@
 {% extends "base.html" %}
 {% block content %}
     <p>Добро пожаловать в Автозагрузчик DataFriend!</p> 
-    <a href="{% url 'add' %}">Загрузить файл</a>
-    {% for p in post %}
-    <p><a href="{% url 'update_form' p.pk %}">{{p.name}}</a>-{{p.status}}-<a href="{% url 'showLog' %}?name={{p.file_user_base}}">LogFile</a></p>
-    {% endfor %}
+    <a href="{% url 'add' %}"><button type="button">Загрузить файлы</button></a>
+    <p></p>
+    <div>
+        <table class="table">
+            <tr>
+                <th>Имя</th>
+                <th>Статус</th>
+                <th>Лог</th>
+            </tr>
+            <tr>
+            {% for p in post %}
+            <td><a href="{% url 'update_form' p.pk %}">{{p.name}}</a></td>
+            <td>{{p.status}}</td>
+            <td><a href="{% url 'showLog' %}?name={{p.file_user_base}}">{{p.log}}</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
 {% endblock %} 

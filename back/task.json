@@ -2,8 +2,8 @@
     "head":{
             "2row":"set \"bd\" \"%1%\"\n",
             "3row":"set \"varnum\" \"%2%\"\n",
-            "4row":"set \"main\" \"C:\\Users\\Egor.Grivtsov\\Documents\\GitHub\\Prod\\AutoLouder_front\\media\"\n",
-            "5row":"set \"out\" \"C:\\SPSSConverter\\test_new_translator\\DF\"\n"
+            "4row":"set \"main\" \"D:\\AutoLouder_front\\media\"\n",
+            "5row":"set \"out\" \"D:\\DataFriend\\resources\"\n"
         },
     "no_vals":{
             "get_vals":{"get_vals":"get_vals ",
@@ -18,25 +18,27 @@
                     "bd":{
                         "sav": "-sav \"%main%\\%bd%\\%bd%.sav\" ",
                         "csv" : "-csv \"%main%\\%bd%\\%bd%.csv\" "},
-                    "out_name": "-out_name \"%out%\\%bd%\\%bd%\"\n",
+                    "out_name": "-out_name \"%main%\\%bd%\\%bd%\"\n",
                     "must":{
                         "convert":"convert ",
+                        "lang":{"EN":"-lang \"en-GB\" ",
+                                "RU":"-lang \"ru-RU\" "},
                         "vars": "-vars \"%main%\\%bd%\\%bd%.vars.csv\" ",
-                        "vals": "-vars \"%main%\\%bd%\\%bd%.vals.csv\" ",
+                        "vals": "-vals \"%main%\\%bd%\\%bd%.vals.csv\" ",
+                        "wt":{"wt":"-wt \"%main%\\%bd%\\%bd%_wt.csv\" "},
                         "bd":{
                             "sav": "-sav \"%main%\\%bd%\\%bd%.sav\" ",
                             "csv" : "-csv \"%main%\\%bd%\\%bd%.csv\" "},
-                        "wt":{"wt":"-wt \"%main%\\%bd%\\%bd%_wt.csv\" "},
-                        "varnum":"-varnum \"%main%\\varnum\\%bd%.varnum\" ",
-                        "out_name":"-out_name \"%out%\\%cbd%\\%bd%\"\n"}
+                        "varnum":"-varnum \"%main%\\varnum\\%varnum%.varnum\" ",
+                        "out_name":"-out_name \"%out%\\%bd%\\%bd%\"\n"}
                     },
             "convert":{"conver":"convert ",
                        "vars": "-vars \"%main%\\%bd%\\%bd%_vars.csv\" ",
-                       "vals": "-vars \"%main%\\%bd%\\%bd%_vals.csv\" ",
+                       "vals": "-vals \"%main%\\%bd%\\%bd%_vals.csv\" ",
+                       "wt":{"wt":"-wt \"%main%\\%bd%\\%bd%_wt.csv\" "},
                        "bd":{
                             "sav": "-sav \"%main%\\%bd%\\%bd%.sav\" ",
                             "csv" : "-csv \"%main%\\%bd%\\%bd%.csv\" "},
-                       "varnum":"-varnum \"%main%\\varnum\\%bd%.varnum\" ",
-                       "wt":{"wt":"-wt \"%main%\\%bd%\\%bd%_wt.csv\" "},
-                       "out_name":"-out_name \"%out%\\%cbd%\\%bd%\"\n"}}                    
+                       "varnum":"-varnum \"%main%\\varnum\\%varnum%.varnum\" ",
+                       "out_name":"-out_name \"%out%\\%bd%\\%bd%\"\n"}}
 }

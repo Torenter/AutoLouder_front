@@ -31,11 +31,14 @@ class UploadFileCreateView(LoginRequiredMixin,CreateView):
         else:
             body = {'path':settings.MEDIA_ROOT,'name':file_name[:-4],'key':form.instance.created,'comand':form.instance.comand,'lang':""} #Собирает словрь
         body = json.dumps(body) #Превращает словарь в json строку
-        sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        sock.connect(('127.0.0.1',50000))
-        sock.send(body.encode('utf-8')) #кодируем в utf-8 для меньших заморочек с байтами
-        sock.close()
-        return super().form_valid(form)
+        try:
+            sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+            sock.connect(('127.0.0.1',50000))
+            sock.send(body.encode('utf-8')) #кодируем в utf-8 для меньших заморочек с байтами
+            sock.close()
+            return super().form_valid(form)
+        except ConnectionRefusedError:
+            return HttpResponse('<h1>Удаленный сервер не отвечает.Свяжитесь с администратором и повторите попытку позже</h1>')
 
 @login_required
 def dashboard(request):
@@ -51,17 +54,21 @@ class ChangeFile(LoginRequiredMixin,UpdateView):
     success_url = '/autoloader/'
     def form_valid(self, form):
         file_name = form.instance.file_user_base.name.split('/')[0] # в request.FILES хранится всё о файле. Через ключ мы обращаемся к полю с файлом, где содержится вся информация. И берет атрибут имени,чтобы знать как файл называется
+        form.instance.status = "Reload"
         if form.instance.comand[:4] == 'Ruby': # если команда Руби, нужно вытащить параметр ланга
             comand,lang = form.instance.comand.split('-') 
             body = {'path':settings.MEDIA_ROOT,'name':file_name,'key':form.instance.created,'comand':comand,'lang':lang} #Собирает словарь
         else:
             body = {'path':settings.MEDIA_ROOT,'name':file_name,'key':form.instance.created,'comand':form.instance.comand,'lang':""} #Собирает словрь
         body = json.dumps(body) #Превращает словарь в json строку
-        sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
-        sock.connect(('127.0.0.1',50000))
-        sock.send(body.encode('utf-8')) #кодируем в utf-8 для меньших заморочек с байтами
-        sock.close()
-        return super().form_valid(form)
+        try:
+            sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+            sock.connect(('127.0.0.1',50000))
+            sock.send(body.encode('utf-8')) #кодируем в utf-8 для меньших заморочек с байтами
+            sock.close()
+            return super().form_valid(form)
+        except ConnectionRefusedError:
+            return HttpResponse('<h1>Удаленный сервер не отвечает.Свяжитесь с администратором и повторите попытку позже</h1>')
 
 @login_required
 def showLog(request):

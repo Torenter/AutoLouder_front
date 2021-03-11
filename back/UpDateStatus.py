@@ -1,8 +1,10 @@
+from time import time
 from sqlalchemy import Column, Integer, String, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import threading
 from abc import ABC, abstractmethod
+import time
 
 class IResponsDB(ABC):
     def __init__(self) -> None:
@@ -44,8 +46,9 @@ class Line(Base):
     created = Column(String)
     status = Column(String)
     name = Column(String)
+    log = Column(String)
     
-    def __init__(self, status, created, file_user_base, file_user_vars, file_user_vals, file_user_weight, user_id, name):
+    def __init__(self, status, created, file_user_base, file_user_vars, file_user_vals, file_user_weight, user_id, name, log):
         self.status = status
         self.created = created
         self.file_user_base = file_user_base
@@ -54,6 +57,7 @@ class Line(Base):
         self.file_user_weight = file_user_weight
         self.user_id = user_id 
         self.name = name
+        self.log = log
     # def __repr__(self):
     #     return "<Line('%s','%s','%s')>" % (self.status, self.created,self.name)
 
@@ -72,18 +76,21 @@ class ConsumerSQL(threading.Thread):
         pname = self.name
         engine = create_engine(f'sqlite:///{self.db}', echo=False) # создаем соединение с БД
         while True:
+            time.sleep(5)
             if not self.result_queue.empty():
                 Session = sessionmaker()
                 Session.configure(bind=engine)  
                 session = Session() # создание сессии
                 temp_task = self.result_queue.get()#взять задачу
-                date,code,status = temp_task.split('||')
+                date,code,status,file_log = temp_task.split('||')
                 ourUser = session.query(Line).filter_by(created=date).first() # запрос на нужную строку
                 if code=='0':
                     ourUser.status = 'Complite'#смена статуса
+                    ourUser.log = file_log
                     session.commit()# внесение изменений в БД
                 else:
                     ourUser.status = status#смена статуса
+                    ourUser.log = file_log
                     session.commit()# внесение изменений в БД
             else:
                 continue
@@ -94,13 +101,11 @@ if __name__== '__main__':
     import queue
     config = configparser.ConfigParser()
     config.read('{}\\{}'.format(os.path.dirname(os.path.abspath(__file__)),"conf.ini"))
-    translators = [value for key, value in config['Translators'].items() ]
-    autoconnect = config['Path']['autoconnect']
-    resours = config['Path']['resours']
+    
     db = config['DataBase']['db']
     results = queue.Queue()
 
     s = ConsumerSQL(results,db)
 
     s.start()
-    results.put('2021-02-09 15:15:13.452821||100||dsagfas')
+    results.put('2021-03-11 11:28:46.531549||100||dsagfas||LogFile')

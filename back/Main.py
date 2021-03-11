@@ -25,27 +25,37 @@ class Consumer(threading.Thread):
         pname = self.name
 
         while True:
+            time.sleep(10)
             if not self.task_queue.empty():
                 comand = self.task_queue.get()#взять задачу
+                time.sleep(5)
+                file_log = ''
                 full_path = str(comand['path']+'\\'+comand['name']) #слепить полный путь до папки с файлами
                 params,status= Param(full_path).get_params()
                 comand = {**comand,**params}
                 if status == None:
                     task = TaskCreate(comand,full_path).createTask()
                     if status == None:
-                        convert,status = RunTranslate(self.translator,task,params['class'],comand['name'],self.resours_path,comand['path']).convert()
+                        try:
+                            convert,status = RunTranslate(self.translator,task,comand['class'],comand['name'],self.resours_path,comand['path']).convert()
+                            file_log = 'LogFile'
+                        except:
+                            status = 'Ошибка в параметрах трансляции. Обратитесь к администратору'
                         if status == None:
-                            connect,status = Connect(self.autoconnect,comand['name'],params).connect()
+                            try:
+                                connect,status = Connect(self.autoconnect,comand,comand['name']).connect()
+                            except:
+                                status = 'Ошибка в параметрах подключения. Обратитесь к администратору'
                             if status == None:
-                                self.result_queue.put(f'{comand["key"]}||0||Complited')
+                                self.result_queue.put(f'{comand["key"]}||0||Complited||{file_log}')
                             else:
-                                self.result_queue.put(f'{comand["key"]}||100||{status}')
+                                self.result_queue.put(f'{comand["key"]}||100||{status}||{file_log}')
                         else:
-                            self.result_queue.put(f'{comand["key"]}||100||{status}')
+                            self.result_queue.put(f'{comand["key"]}||100||{status}||{file_log}')
                     else:
-                        self.result_queue.put(f'{comand["key"]}||100||{status}')
+                        self.result_queue.put(f'{comand["key"]}||100||{status}||{file_log}')
                 else:
-                    self.result_queue.put(f'{comand["key"]}||100||{status}')
+                    self.result_queue.put(f'{comand["key"]}||100||{status}||{file_log}')
             else:
                 continue
 
