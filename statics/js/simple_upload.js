@@ -25,8 +25,14 @@ $(document).ready(function () {
       contentType : false,
       success : function(response) {
         alert('File uploaded!');
-        window.location.replace("http://10.165.134.64:8080/");
-      }
+        window.location = window.location.protocol + "//" +
+                                         window.location.host + "/autoloader/";
+      },
+      error: function(HttpResponse) { 
+        alert("Status: 522"); alert("Error:Удаленный хост не отвечает,обратитесь к администратору ");
+        window.location = window.location.protocol + "//" +
+                                         window.location.host + "/autoloader/";
+    } 
     });
   });
 });
