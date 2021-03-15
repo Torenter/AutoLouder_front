@@ -27,7 +27,12 @@ $(document).ready(function () {
         alert('File uploaded!');
         window.location = window.location.protocol + "//" +
                                          window.location.host + "/autoloader/";
-      }
+      },
+      error: function(HttpResponse) { 
+        alert("Status: 522"); alert("Error:Удаленный хост не отвечает,обратитесь к администратору ");
+        window.location = window.location.protocol + "//" +
+                                         window.location.host + "/autoloader/";
+    } 
     });
   });
 });

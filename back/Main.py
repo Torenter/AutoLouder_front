@@ -7,6 +7,7 @@ from Convertation import RunTranslate
 from Connect import Connect
 import threading, socket, time, os, configparser, queue, json
 
+
 class Consumer(threading.Thread):
 
     def __init__(self, task_queue, result_queue, translator,resours,autoconnect):
@@ -25,7 +26,7 @@ class Consumer(threading.Thread):
         pname = self.name
 
         while True:
-            time.sleep(10)
+            SEMAFOR.acquire()
             if not self.task_queue.empty():
                 comand = self.task_queue.get()#взять задачу
                 time.sleep(5)
@@ -72,6 +73,7 @@ if __name__== '__main__':
     db = config['DataBase']['db']
 
     """Инициализация объектов"""
+    SEMAFOR = threading.Semaphore(0)
     TaskCreate.readTask()
     tasks = queue.Queue()
     results = queue.Queue()
@@ -99,3 +101,4 @@ if __name__== '__main__':
             client.close()
             result = json.loads(result.decode('utf-8')) # Превращение json строки обратно в словарь
             tasks.put(result)
+            SEMAFOR.release()

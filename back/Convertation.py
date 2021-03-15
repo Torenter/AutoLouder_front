@@ -24,7 +24,7 @@ class RunTranslate:
     
     def __run_translator(self):
         command = subprocess.run([self.translator, self.task, self.name, self.varnum], stdout=subprocess.PIPE)#запускат транслятор с передачей параметрова
-        print(command.returncode)
+        #print(command.returncode)
         if command.returncode != 0:
             self.__status = 'Ошибка конвертации(см.лог)'
         with open(f'{self.media}\\{self.name}\\log.txt','w') as f: 

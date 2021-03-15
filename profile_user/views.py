@@ -38,7 +38,7 @@ class UploadFileCreateView(LoginRequiredMixin,CreateView):
             sock.close()
             return super().form_valid(form)
         except ConnectionRefusedError:
-            return HttpResponse('<h1>Удаленный сервер не отвечает.Свяжитесь с администратором и повторите попытку позже</h1>')
+            return HttpResponse(status=522)
 
 @login_required
 def dashboard(request):
@@ -68,7 +68,7 @@ class ChangeFile(LoginRequiredMixin,UpdateView):
             sock.close()
             return super().form_valid(form)
         except ConnectionRefusedError:
-            return HttpResponse('<h1>Удаленный сервер не отвечает.Свяжитесь с администратором и повторите попытку позже</h1>')
+            return HttpResponse(status=522)
 
 @login_required
 def showLog(request):
