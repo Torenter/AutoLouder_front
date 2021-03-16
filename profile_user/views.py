@@ -27,9 +27,23 @@ class UploadFileCreateView(LoginRequiredMixin,CreateView):
         file_name = self.request.FILES['file_user_base'].name # в request.FILES хранится всё о файле. Через ключ мы обращаемся к полю с файлом, где содержится вся информация. И берет атрибут имени,чтобы знать как файл называется
         if form.instance.comand[:4] == 'Ruby': # если команда Руби, нужно вытащить параметр ланга
             comand,lang = form.instance.comand.split('-') 
-            body = {'path':settings.MEDIA_ROOT,'name':file_name[:-4],'key':form.instance.created,'comand':comand,'lang':lang} #Собирает словарь
+            body = {'path':settings.MEDIA_ROOT,
+            'name':file_name[:-4],
+            'key':form.instance.created,
+            'comand':comand,
+            'lang':lang,
+            'bd':form.instance.file_user_base.name,
+            'wt':form.instance.file_user_weight.name,
+            'no_vals':form.instance.file_user_vals.name} #Собирает словарь
         else:
-            body = {'path':settings.MEDIA_ROOT,'name':file_name[:-4],'key':form.instance.created,'comand':form.instance.comand,'lang':""} #Собирает словрь
+            body = {'path':settings.MEDIA_ROOT,
+            'name':file_name[:-4],
+            'key':form.instance.created,
+            'comand':form.instance.comand,
+            'lang':"",
+            'wt':form.instance.file_user_weight.name,
+            'bd':form.instance.file_user_base.name,
+            'no_vals':form.instance.file_user_vals.name} #Собирает словарь
         body = json.dumps(body) #Превращает словарь в json строку
         try:
             sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
@@ -57,9 +71,23 @@ class ChangeFile(LoginRequiredMixin,UpdateView):
         form.instance.status = "Reload"
         if form.instance.comand[:4] == 'Ruby': # если команда Руби, нужно вытащить параметр ланга
             comand,lang = form.instance.comand.split('-') 
-            body = {'path':settings.MEDIA_ROOT,'name':file_name,'key':form.instance.created,'comand':comand,'lang':lang} #Собирает словарь
+            body = {'path':settings.MEDIA_ROOT,
+            'name':file_name,
+            'key':form.instance.created,
+            'comand':comand,
+            'lang':lang,
+            'wt':form.instance.file_user_weight.name,
+            'bd':form.instance.file_user_base.name,
+            'no_vals':form.instance.file_user_vals.name} #Собирает словарь
         else:
-            body = {'path':settings.MEDIA_ROOT,'name':file_name,'key':form.instance.created,'comand':form.instance.comand,'lang':""} #Собирает словрь
+            body = {'path':settings.MEDIA_ROOT,
+            'name':file_name,
+            'key':form.instance.created,
+            'comand':form.instance.comand,
+            'lang':"",
+            'wt':form.instance.file_user_weight.name,
+            'bd':form.instance.file_user_base.name,
+            'no_vals':form.instance.file_user_vals.name} #Собирает словарь
         body = json.dumps(body) #Превращает словарь в json строку
         try:
             sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

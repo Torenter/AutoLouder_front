@@ -10,8 +10,8 @@ class IParam(ABC):
 
 class ParsePram():
     """Класс разбирает файл param на словарь"""
-    def __init__(self,path) -> None:
-        self.path = path
+    def __init__(self,comand) -> None:
+        self.path = f"{comand['path']}\\{comand['name']}"
         self.status_param = None
         self.__param = {}
         self.status = None
@@ -41,60 +41,61 @@ class ParsePram():
 
 class CheckFile():
     """Класс проверяет наличие и расширение файлов для корректного форамирования таска в будущем"""
-    def __init__(self,path) -> None:
-        self.path = path
+    def __init__(self,comand) -> None:
+        self.comand = comand
         self.__vals = None
         self.__wt = None
         # self.status = None
         self.__db = None
 
     def __check(self):
-        files = os.listdir(path="{}".format(self.path))#найти все файлы в папке
-        vals = bool([i for i in files if '_vals' in i])
-        if vals == False:
-            self.__vals = {'no_vals':'get_vals'}
+        self.__vals = self.__len_file(self.comand["no_vals"])
+        self.__wt = self.__len_file(self.comand["wt"])
+        self.__db = self.__len_file(self.comand["bd"])
+        if self.__vals == '':
+            self.comand["no_vals"] = 'get_vals'
         else:
-             self.__vals = {'no_vals':''}
-        wt = bool([i for i in files if '_wt' in i])
-        if wt == True:
-            self.__wt = {'wt':'wt'}
+            self.comand["no_vals"] = ''
+        if self.__wt == '':
+            self.comand["wt"] = ''
         else:
-            self.__wt = {'wt':''}
-    
-    def __checkBD(self):
-        """Проверят в каком формате БД и возвращает ее формат как ключ для таска.
-        Если баз несколько, выбирает ту, что была загружена позже"""
-        files = os.listdir(path="{}".format(self.path))#найти все файлы в папке
-        name = self.path.split('\\')[-1]
-        self.__db = [i for i in files if i == f'{name}.sav' or i == f'{name}.csv'] #ищет все файлы с названием как у БД, в формате sav и csv 
-        if len(self.__db) > 1: # если файлов больше чем один, то выбирает тот, что был загружен последним
-            one = os.path.getctime(f'{self.path}\\{self.__db[0]}') #получает дату создания
-            two = os.path.getctime(f'{self.path}\\{self.__db[1]}')
-            if one > two:
-                self.__db = {'bd':self.__db[0].split('.')[-1]} #Запишет в атрибут только расширение БД
-            else:
-                self.__db = {'bd':self.__db[1].split('.')[-1]} #Запишет в атрибут только расширение БД
-        elif len(self.__db) == 1:
-            self.__db = {'bd':self.__db[0].split('.')[-1]} #Запишет в атрибут только расширение БД
+            self.comand["wt"] = 'wt'
+        if self.__db.split('.')[1] == 'sav':
+            self.comand["bd"] = 'sav'
         else:
-            self.__db = {'bd':""} #Если ни один файл не был найден, значит некорректное имя БД
-            self.status = 'Не найдет файл с базой.'
+            self.comand["bd"] = 'csv'
+
+    def __len_file(self,f):
+        try:
+            f = f.split('/')
+        except:
+            return ''
+        if len(f)<2:
+            if f[0] != None:
+                if len(f[0])==0:
+                    return f[0]
+                elif len(f[0])>0:
+                    return f[0]
+            elif f[0] == None:
+                return ""
+        elif len(f)>1:
+            return f[1]
     
     def check(self) -> dict:
         """Интерфейс"""
         self.__check()
-        self.__checkBD()
-        return {**self.__vals, **self.__wt, **self.__db}
+        return self.comand
 
 
 class Param(ParsePram,CheckFile,IParam):
     """Коллектор функционала по сбору параметров на подключение и формирование таска загрузки
     Основной метод get_params - выдает словарь с информацией о наличии и форматах файлов + разбор param
     При создании экземпляра требует указать путь до папки с файлами"""
-    def __init__(self,path) -> None:
-        super().__init__(path)
-        self.__check = super().check()
+    def __init__(self,comand) -> None:
+        ParsePram.__init__(self,comand)
         self.__get_param = super().get_param()
+        CheckFile.__init__(self,comand)
+        self.__check = super().check()
         self.__params = {**self.__get_param, **self.__check}
         self.__status_main = None
     
@@ -115,10 +116,12 @@ class Param(ParsePram,CheckFile,IParam):
 
 
 if __name__== '__main__':
-    v,s = Param('C:\\Users\\Egor.Grivtsov\\Documents\\GitHub\\Prod\\AutoLouder_front\\media\\Md1').get_params()
+    p = {"comand":"Ruby",'bd':'lkjahfg.sav','wt':"","no_vals":None,"lang":'RU','path':'C:\\Users\\Egor.Grivtsov\\Documents\\GitHub\\Prod\\AutoLouder_front\\media','name':'Md1'}
+    v,s = Param(p).get_params()
     print(v)
     print(s)
     # v = v.get_param()
     # print(Param('C:\\Users\\Egor.Grivtsov\\Documents\\GitHub\\Prod\\AutoLouder_front\\media\\Md').get_param())
-    """Есть нет Param - возвращать ошибку - доделать, а может и не стоит, т.к. это не сказывается на конвертации.
-    Можно вернуть статус, что всё готово но не подключено из-за ошибки в парам"""
+    # p = {"comand":"Ruby",'bd':'lkjahfg.sav','wt':"","no_vals":None,"lang":'RU'}
+    # v = CheckFile(p).check()
+    # print(v)

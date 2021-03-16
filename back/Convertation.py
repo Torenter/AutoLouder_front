@@ -24,7 +24,7 @@ class RunTranslate:
     
     def __run_translator(self):
         command = subprocess.run([self.translator, self.task, self.name, self.varnum], stdout=subprocess.PIPE)#запускат транслятор с передачей параметрова
-        #print(command.returncode)
+        print(command.returncode)
         if command.returncode != 0:
             self.__status = 'Ошибка конвертации(см.лог)'
         with open(f'{self.media}\\{self.name}\\log.txt','w') as f: 
@@ -41,7 +41,7 @@ if __name__== '__main__':
     tas = 'C:\\SPSSConverter\\test_new_translator\\task.txt'
     media = "C:\\Users\\Egor.Grivtsov\\Documents\\GitHub\\Prod\\AutoLouder_front\\media"
     res = 'C:\\Users\\Egor.Grivtsov\\Documents\\GitHub\\Prod\\AutoLouder_front\\media\\resours'
-    s = RunTranslate(tr,tas,'md','Md66',res,media)
+    s = RunTranslate(tr,tas,'md','Md1',res,media)
     print(s.convert())
         
 

@@ -41,7 +41,7 @@ class TaskCreate():
         return f"{self.path}\\task.txt"
 if __name__== '__main__':
 
-    p = {"comand":"Ruby",'bd':'sav','wt':"","no_vals":"","lang":'RU'}
+    p = {"comand":"Ruby",'bd':'sav','wt':"","no_vals":"get_vals","lang":'RU'}
     path = 'C:\\Users\\Egor.Grivtsov\\Documents\\GitHub\\Prod\\AutoLouder_front\\media\\Md1'
     TaskCreate.readTask()
     v = TaskCreate(p,path)

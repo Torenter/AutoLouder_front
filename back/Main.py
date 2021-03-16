@@ -31,10 +31,9 @@ class Consumer(threading.Thread):
                 comand = self.task_queue.get()#взять задачу
                 time.sleep(5)
                 file_log = ''
-                full_path = str(comand['path']+'\\'+comand['name']) #слепить полный путь до папки с файлами
-                params,status= Param(full_path).get_params()
-                comand = {**comand,**params}
+                comand,status= Param(comand).get_params()
                 if status == None:
+                    full_path = str(comand['path']+'\\'+comand['name']) #слепить полный путь до папки с файлами
                     task = TaskCreate(comand,full_path).createTask()
                     if status == None:
                         try:
